@@ -129,9 +129,28 @@ long millis = duration.toMillis();
 long nanos = duration.toNanos();
 ```
 
+### 项目部署到阿里云服务器流程
 
+#### 1.配置阿里云服务器环境，安装jdk8和docker；
 
+#### 2.docker中安装mysql 8.0.11 和 redis 5.0.5镜像；
 
+安装mysql后，新建一个数据库seckill用于本项目，新建一个用户授予操作该数据库的权限
+
+```mysql
+CREATE USER 'xxxx'@'%' IDENTIFIED BY 'password';  # '%'设置允许外网连接（Navicat），新建一个用户；
+
+grant all privileges on `seckill`.* to 'xxxx'@'%'; # 授予用户xxxx操作seckill数据库的所有权限；
+
+```
+
+#### 3.maven项目的Lifecycle中先点击clean，再点击package进行打包
+
+#### 4.在target文件夹中找到对应的jar包，通过Xftp上传到云服务器中
+
+#### 5.通过命令 java -jar xxxxxxxxxx.jar 包运行程序
+
+## 问题待解决：本地运行时，浏览器可以存放cookie，放在阿里云上时，浏览器没有存放cookie。
 
 
 
