@@ -3,7 +3,7 @@
 ## 环境
 
 - SpringBoot 2.5.5
-- mysql 8.0
+- mysql 8.0.11
 - redis 5.0.5
 
 ### 使用mybatis-plus逆向生成代码流程
@@ -150,7 +150,15 @@ grant all privileges on `seckill`.* to 'xxxx'@'%'; # 授予用户xxxx操作secki
 
 #### 5.通过命令 java -jar xxxxxxxxxx.jar 包运行程序
 
-## 问题待解决：本地运行时，浏览器可以存放cookie，放在阿里云上时，浏览器没有存放cookie。
+## 问题：本地运行时，浏览器可以存放cookie，放在阿里云上时，浏览器没有存放cookie。
+
+### 通过在浏览器F12查看cookie时发现，访问阿里云服务器时，cookie没有写入，解决步骤：
+
+  **1. 查看浏览器是否禁用cookie，本地运行时cookie可用，因此不是该原因。**
+  
+  **2. 查看CookieUtil工具类发现，在setCookie时需要用到获取domain，发现是因为代码提取的domain与ip地址不同，导致浏览器没有生成cookie，修改getDomainName方法后，该问题成功解决。**
+  
+  **原因猜测是**
 
 
 
