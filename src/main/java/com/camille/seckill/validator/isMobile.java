@@ -21,6 +21,4 @@ public @interface isMobile {
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-
-
 }

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.camille.seckill.SeckillDemoApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 24.511 s - in com.camille.seckill.SeckillDemoApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.796 s - in com.camille.seckill.SeckillDemoApplicationTests

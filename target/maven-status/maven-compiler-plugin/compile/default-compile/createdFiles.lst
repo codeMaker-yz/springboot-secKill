@@ -20,6 +20,7 @@ com\camille\seckill\vo\LoginVo.class
 com\camille\seckill\pojo\Order.class
 com\camille\seckill\controller\OrderController.class
 com\camille\seckill\service\impl\SeckillOrderServiceImpl.class
+com\camille\seckill\controller\SecKillController.class
 com\camille\seckill\controller\SeckillOrderController.class
 com\camille\seckill\service\impl\UserServiceImpl.class
 com\camille\seckill\exception\GlobalExceptionHandler.class

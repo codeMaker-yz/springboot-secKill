@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -47,6 +51,27 @@ public class GoodsController {
     public String toDetail(Model model, User user, @PathVariable(value = "goodsId") long GoodsId){
         model.addAttribute("user", user);
         GoodsVo goodsVo = goodsService.findGoodsById(GoodsId);
+        LocalDateTime startDate = goodsVo.getStartDate();
+        LocalDateTime endDate = goodsVo.getEndDate();
+        LocalDateTime nowDate = LocalDateTime.now();
+
+        int secKillStatus;
+        long remainSeconds = 0;
+        if(nowDate.isBefore(startDate)){
+            Duration duration = Duration.between(nowDate, startDate);
+            remainSeconds = duration.toMillis() / 1000;
+            secKillStatus = 0;
+        } else if(nowDate.isAfter(endDate)){
+            secKillStatus = 2;
+            remainSeconds = -1;
+        } else {
+            secKillStatus = 1;
+            remainSeconds = 0;
+        }
+        System.out.println(remainSeconds);
+        System.out.println(secKillStatus);
+        model.addAttribute("remainSeconds", remainSeconds);
+        model.addAttribute("secKillStatus", secKillStatus);
         model.addAttribute("goods", goodsVo);
 
         return "goodsDetail";
