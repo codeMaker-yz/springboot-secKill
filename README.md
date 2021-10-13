@@ -103,7 +103,31 @@ public @interface isMobile {
 #### 3.在需要校验的参数前添加@Validated注解
 
 
+### LocalDateTime类
 
+```java
+// 获取当前时间
+LocalDateTime now = LocalDateTime.now();
+LocalDateTime end = LocalDateTime.now();
+
+// 计算两个时间的差
+Duration duration = Duration.between(now, end);
+
+// 相差的天数
+long days = duration.toDays();
+
+// 相差的小时数
+long hours = duration.toHours();
+
+// 相差的分钟数
+long minutes = duration.toMinutes();
+
+// 相差的毫秒数
+long millis = duration.toMillis();
+
+// 相差的纳秒数
+long nanos = duration.toNanos();
+```
 
 
 
