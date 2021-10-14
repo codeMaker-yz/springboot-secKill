@@ -129,6 +129,17 @@ long millis = duration.toMillis();
 long nanos = duration.toNanos();
 ```
 
+## 优化手段
+
+   1.页面缓存：通过redis数据库缓存读多写少的页面（对实时性要求不高的界面）
+   
+   2.对象缓存：
+   
+   3.页面静态化
+   
+   
+   
+
 ### 项目部署到阿里云服务器流程
 
 #### 1.配置阿里云服务器环境，安装jdk8和docker；
@@ -158,7 +169,13 @@ grant all privileges on `seckill`.* to 'xxxx'@'%'; # 授予用户xxxx操作secki
   
   **2. 查看CookieUtil工具类发现，在setCookie时需要用到获取domain，发现是因为代码提取的domain与ip地址不同，导致浏览器没有生成cookie，修改getDomainName方法后，该问题成功解决。**
   
-  **原因猜测是**
+  **原因猜测是浏览器对不合法的domain设置的cookie不生效**
+
+
+## 超卖问题
+
+### 
+
 
 
 
