@@ -3,7 +3,9 @@ package com.camille.seckill.controller;
 import com.camille.seckill.pojo.User;
 import com.camille.seckill.service.IGoodsService;
 import com.camille.seckill.service.IUserService;
+import com.camille.seckill.vo.DetailVo;
 import com.camille.seckill.vo.GoodsVo;
+import com.camille.seckill.vo.RespBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -52,7 +54,6 @@ public class GoodsController {
         String html = (String) redisTemplate.opsForValue().get("goodsList");
         if(StringUtils.hasText(html)){
            return html;
-           
         }
 
 
@@ -70,15 +71,53 @@ public class GoodsController {
 
 
 
-    @RequestMapping(value = "/toDetail/{goodsId}",produces = "text/html;charset=utf-8")
+//    @RequestMapping(value = "/toDetail/{goodsId}",produces = "text/html;charset=utf-8")
+//    @ResponseBody
+//    public String toDetail2(Model model, User user, @PathVariable(value = "goodsId") long GoodsId,
+//                           HttpServletRequest request,HttpServletResponse response){
+//        String html = (String) redisTemplate.opsForValue().get("goodDetails:" + GoodsId);
+//        if(StringUtils.hasText(html)){
+//           return html;
+//        }
+//        model.addAttribute("user", user);
+//        GoodsVo goodsVo = goodsService.findGoodsById(GoodsId);
+//        LocalDateTime startDate = goodsVo.getStartDate();
+//        LocalDateTime endDate = goodsVo.getEndDate();
+//        LocalDateTime nowDate = LocalDateTime.now();
+//
+//        int secKillStatus;
+//        long remainSeconds;
+//        if(nowDate.isBefore(startDate)){
+//            Duration duration = Duration.between(nowDate, startDate);
+//            remainSeconds = duration.toMillis() / 1000;
+//            secKillStatus = 0;
+//        } else if(nowDate.isAfter(endDate)){
+//            secKillStatus = 2;
+//            remainSeconds = -1;
+//        } else {
+//            secKillStatus = 1;
+//            remainSeconds = 0;
+//        }
+//        System.out.println(remainSeconds);
+//        System.out.println(secKillStatus);
+//        model.addAttribute("remainSeconds", remainSeconds);
+//        model.addAttribute("secKillStatus", secKillStatus);
+//        model.addAttribute("goods", goodsVo);
+//
+//        WebContext webContext = new WebContext(request,response, request.getServletContext(),request.getLocale(),model.asMap());
+//        html = thymeleafViewResolver.getTemplateEngine().process("goodsDetail", webContext);
+//        if(StringUtils.hasText(html)){
+//            redisTemplate.opsForValue().set("goodDetails:" + GoodsId, html,60, TimeUnit.SECONDS);
+//        }
+//
+//        return html;
+//    }
+
+    @RequestMapping(value = "/detail/{goodsId}")
     @ResponseBody
-    public String toDetail(Model model, User user, @PathVariable(value = "goodsId") long GoodsId,
-                           HttpServletRequest request,HttpServletResponse response){
-        String html = (String) redisTemplate.opsForValue().get("goodDetails:" + GoodsId);
-        if(StringUtils.hasText(html)){
-           return html;
-        }
-        model.addAttribute("user", user);
+    public RespBean toDetail(User user, @PathVariable(value = "goodsId") long GoodsId){
+
+
         GoodsVo goodsVo = goodsService.findGoodsById(GoodsId);
         LocalDateTime startDate = goodsVo.getStartDate();
         LocalDateTime endDate = goodsVo.getEndDate();
@@ -99,17 +138,13 @@ public class GoodsController {
         }
         System.out.println(remainSeconds);
         System.out.println(secKillStatus);
-        model.addAttribute("remainSeconds", remainSeconds);
-        model.addAttribute("secKillStatus", secKillStatus);
-        model.addAttribute("goods", goodsVo);
+        DetailVo detailVo = new DetailVo();
+        detailVo.setGoodsVo(goodsVo);
+        detailVo.setUser(user);
+        detailVo.setRemainSeconds(remainSeconds);
+        detailVo.setSecKillStatus(secKillStatus);
 
-        WebContext webContext = new WebContext(request,response, request.getServletContext(),request.getLocale(),model.asMap());
-        html = thymeleafViewResolver.getTemplateEngine().process("goodsDetail", webContext);
-        if(StringUtils.hasText(html)){
-            redisTemplate.opsForValue().set("goodDetails:" + GoodsId, html,60, TimeUnit.SECONDS);
-        }
-
-        return html;
+        return RespBean.success(detailVo);
     }
 
 }
