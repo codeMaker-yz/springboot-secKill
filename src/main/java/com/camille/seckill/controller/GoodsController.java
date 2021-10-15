@@ -52,6 +52,7 @@ public class GoodsController {
         String html = (String) redisTemplate.opsForValue().get("goodsList");
         if(StringUtils.hasText(html)){
            return html;
+           
         }
 
 
