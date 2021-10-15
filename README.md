@@ -3,7 +3,7 @@
 ## 环境
 
 - SpringBoot 2.5.5
-- mysql 8.0
+- mysql 8.0.11
 - redis 5.0.5
 
 ### 使用mybatis-plus逆向生成代码流程
@@ -129,8 +129,58 @@ long millis = duration.toMillis();
 long nanos = duration.toNanos();
 ```
 
+## 优化手段
+   
+   优化的核心是：减少对数据库的访问，减少网络流量的消耗。
+
+   1.页面缓存：通过redis数据库缓存读多写少的页面
+   
+   2.对象缓存：
+   
+   3.页面静态化(前后端分离后，除了第一次访问外，后续访问访问本地的html页面（前端页面缓存在浏览器中），与后端的数据交互通过ajax来完成，前后端不分离时，后端需要返回将数据渲染到html页面后，将整个html页面返回，耗费网络流量。)
+   
+   4.使用redis预减库存：系统初始化时，将秒杀商品库存数量加载到redis中，请求过来后，判断是否还有库存，如果库存已经为0，直接返回，不需要访问Mysql数据库。
+   
+   5.使用内存标记：当库存没有时，请求虽然不需要查询数据库，但会大量请求到redis上，可以通过一个内存标记，当库存为0时，直接返回，不需要访问redis数据库。
+   
+   
+   
+
+### 项目部署到阿里云服务器流程
+
+#### 1.配置阿里云服务器环境，安装jdk8和docker；
+
+#### 2.docker中安装mysql 8.0.11 和 redis 5.0.5镜像；
+
+安装mysql后，新建一个数据库seckill用于本项目，新建一个用户授予操作该数据库的权限
+
+```mysql
+CREATE USER 'xxxx'@'%' IDENTIFIED BY 'password';  # '%'设置允许外网连接（Navicat），新建一个用户；
+
+grant all privileges on `seckill`.* to 'xxxx'@'%'; # 授予用户xxxx操作seckill数据库的所有权限；
+
+```
+
+#### 3.maven项目的Lifecycle中先点击clean，再点击package进行打包
+
+#### 4.在target文件夹中找到对应的jar包，通过Xftp上传到云服务器中
+
+#### 5.通过命令 java -jar xxxxxxxxxx.jar 包运行程序
+
+## Cookie问题：本地运行时，浏览器可以存放cookie，放在阿里云上时，浏览器没有存放cookie。
+
+### 通过在浏览器F12查看cookie时发现，访问阿里云服务器时，cookie没有写入，解决步骤：
+
+  **1. 查看浏览器是否禁用cookie，本地运行时cookie可用，因此不是该原因。**
+  
+  **2. 查看CookieUtil工具类发现，在setCookie时需要用到获取domain，发现是因为代码提取的domain与ip地址不同，导致浏览器没有生成cookie，修改getDomainName方法后，该问题成功解决。**
+  
+  **原因猜测是浏览器对不合法的domain设置的cookie不生效**
 
 
+## 超卖问题
+
+### 
 
 
 
