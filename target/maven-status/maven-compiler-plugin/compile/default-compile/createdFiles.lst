@@ -45,3 +45,4 @@ com\camille\seckill\config\RedisConfig.class
 com\camille\seckill\mapper\GoodsMapper.class
 com\camille\seckill\controller\SeckillGoodsController.class
 com\camille\seckill\vo\RespBean.class
+com\camille\seckill\utils\UserUtil.class

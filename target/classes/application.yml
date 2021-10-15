@@ -7,8 +7,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=UTF-8&Timezone=Asia/Shanghai
-    username: root
-    password: 123456
+    username: camille
+    password: z137946a
     hikari:
       # ���ӳ���
       pool-name: DateHikariCP
@@ -42,14 +42,14 @@ spring:
     password: z137946a
 
 
-
 mybatis-plus:
   # ����Mapper.xmlӳ���ļ�λ��
   mapper-locations: classpath:/com/camille/seckill/mapper/xml/*Mapper.xml
 
-
-
 logging:
   level:
     com.camille.seckill.mapper: debug
+server:
+  port: 8080
+  address: 0.0.0.0
 

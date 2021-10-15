@@ -15,6 +15,7 @@ D:\seckill-demo\src\main\java\com\camille\seckill\config\SwaggerConfig.java
 D:\seckill-demo\src\main\java\com\camille\seckill\service\impl\UserServiceImpl.java
 D:\seckill-demo\src\main\java\com\camille\seckill\pojo\Order.java
 D:\seckill-demo\src\main\java\com\camille\seckill\utils\MD5Util.java
+D:\seckill-demo\src\main\java\com\camille\seckill\utils\UserUtil.java
 D:\seckill-demo\src\main\java\com\camille\seckill\config\RedisConfig.java
 D:\seckill-demo\src\main\java\com\camille\seckill\service\IGoodsService.java
 D:\seckill-demo\src\main\java\com\camille\seckill\service\ISeckillOrderService.java
