@@ -49,13 +49,6 @@ public class GoodsController {
     @RequestMapping(value = "/toList",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String toList(Model model,User user,HttpServletRequest request,HttpServletResponse response){
-        /*if(!StringUtils.hasText(ticket)){
-            return "login";
-        }
-        User user = userService.getUserByTicket(ticket, request, response);
-        if(user == null){
-            return "login";
-        }*/
         String html = (String) redisTemplate.opsForValue().get("goodsList");
         if(StringUtils.hasText(html)){
            return html;
