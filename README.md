@@ -167,7 +167,7 @@ grant all privileges on `seckill`.* to 'xxxx'@'%'; # 授予用户xxxx操作secki
 
 #### 5.通过命令 java -jar xxxxxxxxxx.jar 包运行程序
 
-## 问题：本地运行时，浏览器可以存放cookie，放在阿里云上时，浏览器没有存放cookie。
+## Cookie问题：本地运行时，浏览器可以存放cookie，放在阿里云上时，浏览器没有存放cookie。
 
 ### 通过在浏览器F12查看cookie时发现，访问阿里云服务器时，cookie没有写入，解决步骤：
 
