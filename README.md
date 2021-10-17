@@ -149,9 +149,9 @@ long nanos = duration.toNanos();
 
 ## 项目部署到阿里云服务器流程
 
-### 1.配置阿里云服务器环境，安装jdk8和docker；
+ 1.配置阿里云服务器环境，安装jdk8和docker；
 
-### 2.docker中安装mysql 8.0.11 和 redis 5.0.5镜像；
+ 2.docker中安装mysql 8.0.11 和 redis 5.0.5镜像；
 
 安装mysql后，新建一个数据库seckill用于本项目，新建一个用户授予操作该数据库的权限
 
@@ -162,11 +162,11 @@ grant all privileges on `seckill`.* to 'xxxx'@'%'; # 授予用户xxxx操作secki
 
 ```
 
-### 3.maven项目的Lifecycle中先点击clean，再点击package进行打包
+ 3.maven项目的Lifecycle中先点击clean，再点击package进行打包
 
-### 4.在target文件夹中找到对应的jar包，通过Xftp上传到云服务器中
+ 4.在target文件夹中找到对应的jar包，通过Xftp上传到云服务器中
 
-### 5.通过命令 java -jar xxxxxxxxxx.jar 包运行程序
+ 5.通过命令 java -jar xxxxxxxxxx.jar 包运行程序
 
 
 
