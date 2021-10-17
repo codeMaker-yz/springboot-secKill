@@ -1,6 +1,7 @@
 package com.camille.seckill.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.camille.seckill.pojo.Order;
 import com.camille.seckill.mapper.OrderMapper;
 import com.camille.seckill.pojo.SeckillGoods;
@@ -12,6 +13,7 @@ import com.camille.seckill.service.ISeckillGoodsService;
 import com.camille.seckill.service.ISeckillOrderService;
 import com.camille.seckill.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,13 +38,21 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Autowired
     private ISeckillOrderService seckillOrderService;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
 
-    @Override
     @Transactional
+    @Override
     public Order seckill(User user, GoodsVo goods) {
         SeckillGoods seckillGoods = seckillGoodsService.getOne(new QueryWrapper<SeckillGoods>().eq("goods_id", goods.getId()));
-        seckillGoods.setStockCount(seckillGoods.getStockCount() - 1);
-        seckillGoodsService.updateById(seckillGoods);
+
+        boolean result = seckillGoodsService.update(new UpdateWrapper<SeckillGoods>().setSql("stock_count = stock_count - 1").eq("id", seckillGoods.getId())
+                .gt("stock_count", 0));
+
+        if(!result){
+            return null;
+        }
+
 
         //生成订单
         Order order = new Order();
@@ -63,7 +73,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         seckillOrder.setOrderId(order.getId());
         seckillOrder.setGoodsId(goods.getId());
         seckillOrderService.save(seckillOrder);
-
+        redisTemplate.opsForValue().set("order:"+user.getId()+":"+goods.getId(), seckillOrder);
 
         return order;
     }

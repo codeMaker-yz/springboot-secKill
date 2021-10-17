@@ -41,6 +41,28 @@ spring:
 
     password: z137946a
 
+  rabbitmq:
+    host: 121.196.30.95
+    username: camille
+    password: z137946a
+    virtual-host: /
+    port: 5672
+    listener:
+      simple:
+        concurrency: 10
+        max-concurrency: 20
+        prefetch: 1
+        auto-startup: true
+        default-requeue-rejected: true
+    template:
+      retry:
+        enabled: true
+        initial-interval: 1000ms
+        max-attempts: 3
+        max-interval: 10000ms
+        multiplier: 1
+
+
 
 mybatis-plus:
   # ÅäÖÃMapper.xmlÓ³ÉäÎÄ¼şÎ»ÖÃ

@@ -1,9 +1,11 @@
 com\camille\seckill\mapper\SeckillGoodsMapper.class
 com\camille\seckill\mapper\SeckillOrderMapper.class
+com\camille\seckill\rabbitmq\MQSender.class
 com\camille\seckill\validator\isMobile.class
 com\camille\seckill\pojo\SeckillOrder.class
 com\camille\seckill\mapper\UserMapper.class
 com\camille\seckill\service\ISeckillOrderService.class
+com\camille\seckill\rabbitmq\MQReceiver.class
 com\camille\seckill\pojo\SeckillGoods.class
 com\camille\seckill\vo\LoginVo.class
 com\camille\seckill\pojo\Order.class
@@ -37,6 +39,7 @@ com\camille\seckill\vo\IsMobileValidator.class
 com\camille\seckill\controller\DemoController.class
 com\camille\seckill\controller\OrderController.class
 com\camille\seckill\service\impl\SeckillOrderServiceImpl.class
+com\camille\seckill\config\RabbitMQConfig.class
 com\camille\seckill\controller\SeckillOrderController.class
 com\camille\seckill\service\impl\UserServiceImpl.class
 com\camille\seckill\SeckillDemoApplication.class

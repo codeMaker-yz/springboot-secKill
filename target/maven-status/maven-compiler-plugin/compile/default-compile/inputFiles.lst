@@ -10,6 +10,8 @@ D:\seckill-demo\src\main\java\com\camille\seckill\utils\MD5Util.java
 D:\seckill-demo\src\main\java\com\camille\seckill\utils\UserUtil.java
 D:\seckill-demo\src\main\java\com\camille\seckill\config\RedisConfig.java
 D:\seckill-demo\src\main\java\com\camille\seckill\service\ISeckillOrderService.java
+D:\seckill-demo\src\main\java\com\camille\seckill\config\RabbitMQConfig.java
+D:\seckill-demo\src\main\java\com\camille\seckill\rabbitmq\MQSender.java
 D:\seckill-demo\src\main\java\com\camille\seckill\utils\ValidatorUtil.java
 D:\seckill-demo\src\main\java\com\camille\seckill\validator\isMobile.java
 D:\seckill-demo\src\main\java\com\camille\seckill\controller\SecKillController.java
@@ -37,6 +39,7 @@ D:\seckill-demo\src\main\java\com\camille\seckill\service\IOrderService.java
 D:\seckill-demo\src\main\java\com\camille\seckill\config\UserArgumentResolver.java
 D:\seckill-demo\src\main\java\com\camille\seckill\controller\LoginController.java
 D:\seckill-demo\src\main\java\com\camille\seckill\service\ISeckillGoodsService.java
+D:\seckill-demo\src\main\java\com\camille\seckill\rabbitmq\MQReceiver.java
 D:\seckill-demo\src\main\java\com\camille\seckill\vo\RespBean.java
 D:\seckill-demo\src\main\java\com\camille\seckill\utils\JsonUtil.java
 D:\seckill-demo\src\main\java\com\camille\seckill\mapper\SeckillOrderMapper.java
