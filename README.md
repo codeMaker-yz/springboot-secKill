@@ -5,6 +5,7 @@
 - SpringBoot 2.5.5
 - mysql 8.0.11
 - redis 5.0.5
+- rabiitMQ 3.9.7
 
 ### 使用mybatis-plus逆向生成代码流程
 
@@ -146,11 +147,11 @@ long nanos = duration.toNanos();
    
    
 
-### 项目部署到阿里云服务器流程
+## 项目部署到阿里云服务器流程
 
-#### 1.配置阿里云服务器环境，安装jdk8和docker；
+### 1.配置阿里云服务器环境，安装jdk8和docker；
 
-#### 2.docker中安装mysql 8.0.11 和 redis 5.0.5镜像；
+### 2.docker中安装mysql 8.0.11 和 redis 5.0.5镜像；
 
 安装mysql后，新建一个数据库seckill用于本项目，新建一个用户授予操作该数据库的权限
 
@@ -161,11 +162,12 @@ grant all privileges on `seckill`.* to 'xxxx'@'%'; # 授予用户xxxx操作secki
 
 ```
 
-#### 3.maven项目的Lifecycle中先点击clean，再点击package进行打包
+### 3.maven项目的Lifecycle中先点击clean，再点击package进行打包
 
-#### 4.在target文件夹中找到对应的jar包，通过Xftp上传到云服务器中
+### 4.在target文件夹中找到对应的jar包，通过Xftp上传到云服务器中
 
-#### 5.通过命令 java -jar xxxxxxxxxx.jar 包运行程序
+### 5.通过命令 java -jar xxxxxxxxxx.jar 包运行程序
+
 
 ## Cookie问题：本地运行时，浏览器可以存放cookie，放在阿里云上时，浏览器没有存放cookie。
 
@@ -178,9 +180,43 @@ grant all privileges on `seckill`.* to 'xxxx'@'%'; # 授予用户xxxx操作secki
   **原因猜测是浏览器对不合法的domain设置的cookie不生效**
 
 
-## 超卖问题
+## 超卖问题（订单数量 > 库存数量）
 
-### 
+在执行秒杀的过程中，需要更新数据库库存，生成订单、生成秒杀订单三个操作，需要以事务来执行，seckill方法需要加上@Transactional注解。
+
+减库存方法：
+```java
+seckillGoodsService.update(new UpdateWrapper<SeckillGoods>().setSql("stock_count = stock_count - 1").eq("id", seckillGoods.getId())
+                .gt("stock_count", 0));
+```
+
+防止同一用户重复购买：数据库用userId和goodsId作为唯一索引，可以防止同一用户相同商品的重复插入数据库。
+
+创建成功的订单，以userId+goodsId作为key存储在redis中，防止重复购买（避免判断同一用户时查询mysql数据库）
+
+
+## docker部署rabbitMQ
+
+```linux
+
+docker pull rabbitmq
+
+docker run -d --hostname my-rabbit --name rabbit -e RABBITMQ_DEFAULT_USER=你的user -e RABBITMQ_DEFAULT_PASS=你的password -p 15672:15672 -p 5672:5672 rabbitmq:management
+```
+
+## SpringBoot集成rabbitMQ
+
+1. 引入依赖
+```java
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-amqp</artifactId>
+</dependency>
+```
+
+2. 配置yml文件
+
+
 
 
 
