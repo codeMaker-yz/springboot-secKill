@@ -1,34 +1,34 @@
 spring:
-  # thymelaefÅäÖÃ
+  # thymelaefé…ç½®
   thymeleaf:
-    # ¹Ø±Õ»º´æ
+    # å…³é—­ç¼“å­˜
     cache: false
-  # Êı¾İÔ´ÅäÖÃ
+  # æ•°æ®æºé…ç½®
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=UTF-8&Timezone=Asia/Shanghai
-    username: camille
-    password: z137946a
+    username: 
+    password: 
     hikari:
-      # Á¬½Ó³ØÃû
+      # è¿æ¥æ± å
       pool-name: DateHikariCP
-      # ×îĞ¡¿ÕÏĞÁ¬½ÓÊı
+      # æœ€å°ç©ºé—²è¿æ¥æ•°
       minimum-idle: 5
-      # ¿ÕÏĞÁ¬½Ó´æ»î×î´óÊ±¼ä£¬Ä¬ÈÏ600000£¨10·ÖÖÓ£©
+      # ç©ºé—²è¿æ¥å­˜æ´»æœ€å¤§æ—¶é—´ï¼Œé»˜è®¤600000ï¼ˆ10åˆ†é’Ÿï¼‰
       idle-timeout: 1800000
-      # ×î´óÁ¬½ÓÊı£¬Ä¬ÈÏ10
+      # æœ€å¤§è¿æ¥æ•°ï¼Œé»˜è®¤10
       maximum-pool-size: 10
-      # ´ÓÁ¬½Ó³Ø·µ»ØµÄÁ¬½Ó×Ô¶¯Ìá½»
+      # ä»è¿æ¥æ± è¿”å›çš„è¿æ¥è‡ªåŠ¨æäº¤
       auto-commit: true
-      # Á¬½Ó×î´ó´æ»îÊ±¼ä£¬0±íÊ¾ÓÀ¾Ã´æ»î£¬Ä¬ÈÏ1800000£¨30·ÖÖÓ£©
+      # è¿æ¥æœ€å¤§å­˜æ´»æ—¶é—´ï¼Œ0è¡¨ç¤ºæ°¸ä¹…å­˜æ´»ï¼Œé»˜è®¤1800000ï¼ˆ30åˆ†é’Ÿï¼‰
       max-lifetime: 1800000
-      # Á¬½Ó³¬Ê±Ê±¼ä£¬Ä¬ÈÏ30s
+      # è¿æ¥è¶…æ—¶æ—¶é—´ï¼Œé»˜è®¤30s
       connection-timeout: 30000
-      # ĞÄÌø»úÖÆ£¨²âÊÔÁ¬½ÓÊÇ·ñ¿ÉÓÃ£©
+      # å¿ƒè·³æœºåˆ¶ï¼ˆæµ‹è¯•è¿æ¥æ˜¯å¦å¯ç”¨ï¼‰
       connection-test-query: SELECT 1
 
   redis:
-    host: 121.196.30.95
+    host: 
     port: 6379
     database: 0
     connect-timeout: 10000ms
@@ -39,11 +39,11 @@ spring:
         max-idle: 200
         min-idle: 5
 
-    password: z137946a
+    password: 
 
 
 mybatis-plus:
-  # ÅäÖÃMapper.xmlÓ³ÉäÎÄ¼şÎ»ÖÃ
+  # é…ç½®Mapper.xmlæ˜ å°„æ–‡ä»¶ä½ç½®
   mapper-locations: classpath:/com/camille/seckill/mapper/xml/*Mapper.xml
 
 logging:
