@@ -8,17 +8,26 @@ import com.camille.seckill.pojo.User;
 import com.camille.seckill.service.IGoodsService;
 import com.camille.seckill.service.IOrderService;
 import com.camille.seckill.service.ISeckillOrderService;
+import com.camille.seckill.service.impl.GoodsServiceImpl;
 import com.camille.seckill.vo.GoodsVo;
+import com.camille.seckill.vo.RespBean;
 import com.camille.seckill.vo.RespBeanEnum;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Collections;
+import java.util.List;
 
 @Controller
 @RequestMapping("/seckill")
-public class SecKillController {
+public class SecKillController implements InitializingBean {
 
     @Autowired
     private IGoodsService goodsService;
@@ -32,36 +41,40 @@ public class SecKillController {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @RequestMapping("/doSeckill")
-    public String doSeckill(Model model, User user, Long goodsId){
+    @PostMapping("/doSeckill")
+    @ResponseBody
+    public RespBean doSeckill (User user, Long goodsId){
         if(user == null){
-            return "login";
-        }
-        model.addAttribute("user", user);
-        GoodsVo goods = goodsService.findGoodsById(goodsId);
-
-        //判断库存
-        if(goods.getStockCount() < 1){
-            model.addAttribute("errmsg", RespBeanEnum.EMPTY_STOCK.getMessage());
-            return "secKillFail";
+            return RespBean.error(RespBeanEnum.SESSION_ERROR);
         }
 
-        //判断是否重复抢购
-//        SeckillOrder seckillOrder = seckillOrderService.getOne(new QueryWrapper<SeckillOrder>().eq("user_id", user.getId())
-//                .eq("goods_id", goodsId));
+        redisTemplate.opsForValue().get("seckillGoods:" + goodsId);
 
         SeckillOrder seckillOrder = (SeckillOrder) redisTemplate.opsForValue().get("order:"+user.getId()+":"+goodsId);
         if(seckillOrder != null){
-            model.addAttribute("errmsg", RespBeanEnum.REPEATE_ERROR.getMessage());
-            return "secKillFail";
+            return RespBean.error(RespBeanEnum.REPEATE_ERROR);
         }
 
-        Order order = orderService.seckill(user,goods);
-        model.addAttribute("order", order);
-        model.addAttribute("goods", goods);
 
-        return "orderDetail";
+        GoodsVo goods = goodsService.findGoodsById(goodsId);
 
+
+        Order order = orderService.seckill(user, goods);
+
+        return RespBean.success(order);
+
+
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        List<GoodsVo> list = goodsService.findGoodsVo();
+        if(CollectionUtils.isEmpty(list)){
+            return;
+        }
+        list.forEach(goodsVo -> {
+            redisTemplate.opsForValue().set("seckillGoods:"+goodsVo.getId(), goodsVo.getStockCount());
+        });
 
     }
 }

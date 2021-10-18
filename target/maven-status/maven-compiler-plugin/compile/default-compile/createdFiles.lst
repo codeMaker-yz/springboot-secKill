@@ -48,5 +48,6 @@ com\camille\seckill\service\impl\GoodsServiceImpl.class
 com\camille\seckill\service\IOrderService.class
 com\camille\seckill\service\IUserService.class
 com\camille\seckill\service\impl\OrderServiceImpl.class
+com\camille\seckill\vo\OrderDetailVo.class
 com\camille\seckill\controller\GoodsController.class
 com\camille\seckill\controller\SeckillGoodsController.class

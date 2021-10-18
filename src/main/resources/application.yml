@@ -1,4 +1,20 @@
 spring:
+  # 静态web资源处理配置
+  web:
+    resources:
+      # 默认启用静态资源处理
+      add-mappings: true
+      cache:
+        cachecontrol:
+          #缓存时间，s为单位
+          max-age: 3600
+      chain:
+        #资源链自动缓存，默认启用
+        cache: true
+        #启用资源链：默认禁用
+        enabled: true
+        #启用压缩资源(gzip, brotli)解析，默认禁用
+        compressed: true
   # thymelaef配置
   thymeleaf:
     # 关闭缓存
@@ -7,8 +23,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=UTF-8&Timezone=Asia/Shanghai
-    username: 
-    password: 
+    username: camille
+    password: z137946a
     hikari:
       # 连接池名
       pool-name: DateHikariCP
@@ -28,7 +44,7 @@ spring:
       connection-test-query: SELECT 1
 
   redis:
-    host: 
+    host: 121.196.30.95
     port: 6379
     database: 0
     connect-timeout: 10000ms
@@ -39,7 +55,7 @@ spring:
         max-idle: 200
         min-idle: 5
 
-    password: 
+    password: z137946a
 
   rabbitmq:
     host: 121.196.30.95

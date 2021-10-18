@@ -2,16 +2,21 @@ package com.camille.seckill.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.camille.seckill.exception.GlobalException;
 import com.camille.seckill.pojo.Order;
 import com.camille.seckill.mapper.OrderMapper;
 import com.camille.seckill.pojo.SeckillGoods;
 import com.camille.seckill.pojo.SeckillOrder;
 import com.camille.seckill.pojo.User;
+import com.camille.seckill.service.IGoodsService;
 import com.camille.seckill.service.IOrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.camille.seckill.service.ISeckillGoodsService;
 import com.camille.seckill.service.ISeckillOrderService;
 import com.camille.seckill.vo.GoodsVo;
+import com.camille.seckill.vo.OrderDetailVo;
+import com.camille.seckill.vo.RespBean;
+import com.camille.seckill.vo.RespBeanEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -39,6 +44,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     private ISeckillOrderService seckillOrderService;
 
     @Autowired
+    private IGoodsService goodsService;
+
+    @Autowired
     private RedisTemplate redisTemplate;
 
     @Transactional
@@ -52,7 +60,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         if(!result){
             return null;
         }
-
 
         //生成订单
         Order order = new Order();
@@ -76,5 +83,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         redisTemplate.opsForValue().set("order:"+user.getId()+":"+goods.getId(), seckillOrder);
 
         return order;
+    }
+
+    @Override
+    public OrderDetailVo detail(Long orderId) {
+        if(orderId == null){
+            throw new GlobalException(RespBeanEnum.ORDER_NOT_EXIST);
+        }
+        Order order = baseMapper.selectById(orderId);
+        GoodsVo goodsVo = goodsService.findGoodsById(order.getGoodsId());
+
+        return new OrderDetailVo(order, goodsVo);
     }
 }
