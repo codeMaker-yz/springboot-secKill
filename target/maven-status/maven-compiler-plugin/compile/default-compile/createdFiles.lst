@@ -25,6 +25,7 @@ com\camille\seckill\config\RedisConfig.class
 com\camille\seckill\mapper\GoodsMapper.class
 com\camille\seckill\vo\RespBean.class
 com\camille\seckill\utils\UserUtil.class
+com\camille\seckill\pojo\SeckillMessage.class
 com\camille\seckill\service\IGoodsService.class
 com\camille\seckill\controller\LoginController.class
 com\camille\seckill\utils\JsonUtil.class

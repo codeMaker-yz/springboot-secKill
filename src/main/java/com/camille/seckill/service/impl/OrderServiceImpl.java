@@ -57,7 +57,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         boolean result = seckillGoodsService.update(new UpdateWrapper<SeckillGoods>().setSql("stock_count = stock_count - 1").eq("id", seckillGoods.getId())
                 .gt("stock_count", 0));
 
-        if(!result){
+        if(seckillGoods.getStockCount() < 1){
+            redisTemplate.opsForValue().set("isStockEmpty:"+goods.getId(),"0");
             return null;
         }
 

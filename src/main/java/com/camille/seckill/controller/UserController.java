@@ -22,20 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    private MQSender mqSender;
 
-    @RequestMapping("/info")
-    @ResponseBody
-    public RespBean info(User user){
-        return RespBean.success(user);
-    }
-
-    @RequestMapping("/mq")
-    @ResponseBody
-    public void mq(){
-        mqSender.send("Hello");
-    }
 
 
 }
